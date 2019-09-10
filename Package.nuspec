@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>ImageFinder</id>
+    <version>1.0.0</version>
+    <authors>0x2E757</authors>
+    <owners>0x2E757</owners>
+    <licenseUrl>https://github.com/0x2E757/ImageFinder/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/0x2E757/ImageFinder/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Library for fast pattern image search in other image</description>
+    <copyright>Copyright 2019</copyright>
+    <tags>imagefinder imagesearch image pattern template find search fast</tags>
+  </metadata>
+</package>
