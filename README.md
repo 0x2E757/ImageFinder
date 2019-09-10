@@ -10,7 +10,7 @@ Library for fast pattern image search in other image
 
 `ImageFinder.MakeScreenshot()` — returns screenshot of main display.
 
-`ImageFinder.Find` returns list of `ImageFinder.Match`, where `ImageFinder.Match` is:
+Results are stored in `ImageFinder.LastMatches`, which is `List` of:
 
 ```C#
 struct Match {
