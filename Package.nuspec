@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>ImageFinder</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <authors>0x2E757</authors>
     <owners>0x2E757</owners>
     <licenseUrl>https://github.com/0x2E757/ImageFinder/blob/master/LICENSE</licenseUrl>
@@ -12,4 +12,8 @@
     <copyright>Copyright 2019</copyright>
     <tags>imagefinder imagesearch image pattern template find search fast</tags>
   </metadata>
+  <files>
+    <file src="ImageFinder\bin\Release\*.dll" target="lib" />
+    <file src="ImageFinder\bin\Release\*.pdb" target="lib" />
+  </files>
 </package>
