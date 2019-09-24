@@ -154,7 +154,12 @@ namespace ImageFinderNS {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Find(Image image, Single similarityThreshold) {
+        public static List<Match> Find(Image image, Single similarityThreshold) {
+            return Find(image, similarityThreshold, new Rectangle(Point.Empty, RawSourceImage.Size));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static List<Match> Find(Image image, Single similarityThreshold, Rectangle zone) {
             if (RawSourceImage == null)
                 throw new Exception($"Source image not specified.");
             if (image.Width > RawSourceImage.Width)
@@ -168,18 +173,20 @@ namespace ImageFinderNS {
             RawTargetImage = image;
             SimilarityThreshold = similarityThreshold;
             LastMatches.Clear();
-            InnerFind();
+            InnerFind(1, zone);
+            return LastMatches;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static FindState InnerFind(Int32 scaleDivider = 1) {
+        private static FindState InnerFind(Int32 scaleDivider, Rectangle zone) {
+            Rectangle scaledZone = new Rectangle(new Point(zone.X / scaleDivider - 1, zone.Y / scaleDivider - 1), new Size(zone.Width / scaleDivider + 2, zone.Height / scaleDivider + 2));
             Size sourceSize = new Size(RawSourceImage.Width / scaleDivider, RawSourceImage.Height / scaleDivider);
             Size targetSize = new Size(RawTargetImage.Width / scaleDivider, RawTargetImage.Height / scaleDivider);
             if (targetSize.Width * targetSize.Height >= 100) {
-                FindState findState = InnerFind(scaleDivider * 2);
+                FindState findState = InnerFind(scaleDivider * 2, zone);
                 if (findState != FindState.None) {
                     DrawScaledImages(scaleDivider, sourceSize, targetSize);
-                    List<Rectangle> regions = GetRegionsFromMatches(findState, sourceSize);
+                    List<Rectangle> regions = GetRegionsFromMatches(findState, sourceSize, scaledZone);
                     List<Match> matches = SearchForMatches(targetSize, regions, scaleDivider);
                     if (matches.Count > 0) FilterWorstMatches(matches, scaleDivider);
                     if (scaleDivider > 1) MergeNearMatches(matches, scaleDivider);
@@ -206,11 +213,11 @@ namespace ImageFinderNS {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static List<Rectangle> GetRegionsFromMatches(FindState findState, Size sourceSize) {
+        private static List<Rectangle> GetRegionsFromMatches(FindState findState, Size sourceSize, Rectangle zone) {
             List<Rectangle> result = new List<Rectangle>();
             Rectangle sourceBounds = new Rectangle(Point.Empty, sourceSize);
             if (findState == FindState.Initial) {
-                result.Add(sourceBounds);
+                result.Add(Rectangle.Intersect(sourceBounds, zone));
             } else {
                 foreach (Match match in LastMatches) {
                     Point topLeft = new Point();
@@ -220,7 +227,7 @@ namespace ImageFinderNS {
                     bottomRight.Y = (match.Zone.Bottom + 1) * 2;
                     bottomRight.X = (match.Zone.Right + 1) * 2;
                     Rectangle region = Rectangle.FromLTRB(topLeft.X, topLeft.Y, bottomRight.X, bottomRight.Y);
-                    result.Add(Rectangle.Intersect(region, sourceBounds));
+                    result.Add(Rectangle.Intersect(Rectangle.Intersect(region, sourceBounds), zone));
                 }
             }
             return result;
