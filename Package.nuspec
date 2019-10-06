@@ -2,11 +2,11 @@
 <package>
   <metadata>
     <id>ImageFinder</id>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <authors>0x2E757</authors>
     <owners>0x2E757</owners>
     <licenseUrl>https://github.com/0x2E757/ImageFinder/blob/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/0x2E757/ImageFinder/</projectUrl>
+    <repository type="git" url="https://github.com/0x2E757/ImageFinder.git" branch="master" />
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Library for fast pattern image search in other image</description>
     <copyright>Copyright 2019</copyright>

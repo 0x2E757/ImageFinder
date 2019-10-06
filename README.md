@@ -6,7 +6,7 @@ Library for fast pattern image search in other image
 
 `ImageFinder.SetSource(Image)` — set source image.
 
-`ImageFinder.Find(Image, Single)` — find pattern in source by similary threshold.
+`ImageFinder.Find(Image, Single[, Rectangle])` — find pattern in source by similary threshold and search zone if specified.
 
 `ImageFinder.MakeScreenshot()` — returns screenshot of main display.
 
